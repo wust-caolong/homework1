@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>注册会员</title>
+  </head>
+  <body>
+    <div style="border: 1px solid rgb(207, 207,207); max-width: 600px;" >
+     <form action="data.html" method="get">
+     
+      <div>
+        <label for="" style="color: blue">欢迎注册会员</label>
+      </div>
+
+      <div id="手机号码">
+        <label for="phonenumber">手机号码:</label>
+        <input type="text" id="phonenumber" placeholder="11位手机号码" />
+        <label for="" style="color: red">必填</label>
+      </div>
+
+      <div id="创建密码">
+        <label for="pwd">创建密码:</label>
+        <input type="password" id="pwd" placeholder="8位密码" />
+        <label for="" style="color: red">必填</label>
+      </div>
+
+      <div id="注册邮箱">
+        <label for="email">注册邮箱:</label>
+        <input type="text" id="email" placeholder="例如123@qq.com" />
+        <label for="" style="color: red">必填</label>
+      </div>
+
+      <div id="验证码">
+        <label for="yanzheng">&nbsp;&nbsp;&nbsp;验证码:</label>
+        <input type="text" id="yanzheng" />
+        <i style="background-color: rgb(165, 42, 149);">&nbsp;<label id="code_box">UJFg</label>&nbsp;&nbsp;</i>
+
+        <script>
+            var msg = document.getElementById("msg");
+            window.onload = function () {
+                msg.innerHTML = document.getElementById("earnings").value;
+            }
+            document.getElementById("earnings").onmousemove = function () {
+                msg.innerHTML = this.value;
+            }
+        </script>
+        <script>
+            var code_box = document.getElementById("code_box");
+
+            function refreshCode() {
+
+                //62个字符 随机选择4位
+                var code = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM',
+                    char = '',
+                    result = '';
+
+                for (var i = 0; i < 4; i++) {
+
+                    //随机选择一位  （0,61） 写出0到61的随机的索引数字
+                    var code_index = Math.round(Math.random() * 61);
+                    //得到随机的索引  取出随机地字符
+                    var char = code[code_index];
+                    //随机取出的字符 存在几个相同重复的问题 ，而且对于字母，不能区分大小写。
+                    // 避免重复的思路是：取出字符之后,和最后的result对比一下，看看里边是不是已经存在了，如果存在本次循环就终止，进行下一次
+                    if (result.toUpperCase().indexOf(char.toUpperCase()) > -1)
+                    //indexOf() == -1 说明结果里边没有要找的字符 那么 > -1 就是 里边有重复的字符
+                    {
+                        i--;
+                        //为什么会 --？ 因为如果条件成立，那么本轮循环就结束进行下一轮循环（自然i就加1了），那么本轮本应该取出的字符就没有了
+                        //到最后会少一个字符 缺席
+                        continue;//终止本轮循环 进行下一轮
+                    }
+                    result += char;
+                }
+                code_box.innerHTML = result;
+            }
+            //点击事件
+            code_box.onclick = refreshCode;
+        </script>
+      </div>
+
+      <div id="性别">
+        <label for="sex">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别:</label>
+        <label>
+          <input type="radio" name="sex" value="male" checked="checked" /> 男
+        </label>
+        <label> <input type="radio" name="sex" value="female" /> 女 </label>
+      </div>
+
+      <div id="生日">
+        <label for="birth"
+          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生日:</label
+        >
+        <input type="text" placeholder="年/月/日"/>
+      </div>
+
+      <div id="年龄">
+        <label for="age"
+          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄:</label
+        >
+        <input type="text" />
+      </div>
+
+      <div id="籍贯">
+        <label for="live"
+          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍贯:</label
+        >
+        <select id="province" onchange="showCity()">
+            <option value="0" selected="selected">湖北省</option>
+            <option value="1">河南省</option>
+            <option value="2">山东省</option>
+            <option value="3">广东省</option>
+        </select>
+        <select id="city">
+            <option value="0">武汉</option>
+            <option value="1">襄阳</option>
+            <option value="2">孝感</option>
+        </select>
+        <!-- 还没学，不会 -->
+        <script>
+            function showCity() {
+
+                //城市数组要与option标签中的省份相对应，因为第一个选项就是“省份”描述，所以第一个数组用空数组即可
+                var citys = [[], ["郑州", "南阳", "安阳"], ["济南", "青岛", "崂山"], ["广州", "深圳", "中山"]];
+
+                //获取用户选择的省份
+                var provinceNode = document.getElementById("province");
+                //获取选择的省份的索引
+                var index = provinceNode.selectedIndex;
+                //根据省份的索引从二维数组中获取到显示的城市数据，showCity是一个一维数组
+                var showCity = citys[index];
+
+                //我们需要把显示的数据显示到城市这个下拉菜单中，首先需要获取到城市下拉菜单的节点，再获取到它的子节点，也就是具体的城市，将他们删除后，再将获取到的信息显示在城市下拉菜单中
+                //获取到城市下拉菜单的节点
+                var cityNode = document.getElementById("city");
+                //获取到城市下拉菜单的子节点，也就是具体的城市选项，得到的是一个子节点数组
+                var cityChildNodes = cityNode.childNodes;
+                //将所有的cityChilds删除，也就是城市下拉菜单中的所有元素。
+                //for循环这里没有变量自增，是因为每当删除一个城市后，下一个城市就自动向前，所以只用一直删除第一个城市即可。
+                for (var i = 0; i < cityChildNodes.length;) {
+                    cityNode.removeChild(cityChildNodes[i]);
+                }
+
+                //将获取的城市显示到城市下拉菜单的option标签中
+                for (var i = 0; i < showCity.length; i++) {
+                    //创建一个option标签用于存放具体的城市
+                    var optionCityNode = document.createElement("option");
+                    //将查询到的城市添加到option标签中
+                    optionCityNode.innerHTML = showCity[i];
+                    //将optionCityNode标签添加到城市下拉菜单中
+                    cityNode.appendChild(optionCityNode);
+                }
+            }
+        </script>
+      </div>
+     
+      <div id="学历">
+      <label for="xueli">个人学历:</label>
+      <select name="xueli" id="" width="500">
+        <option value="1">初中及以下</option>
+        <option value="2">高中</option>
+        <option value="3">专科</option>
+        <option value="4" selected="selected">本科</option>
+        <option value="5">硕士</option>
+        <option value="6">博士</option>
+      </select>
+      </div>
+
+      <div id="月薪">
+          <label for="gongzi"
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月薪:</label>
+          <input
+            type="range" id="gz" name="gongzi" min="0.0" max="50000" step="1000" value="5000"/>
+          <span id="msg"></span>
+
+          <script>
+            var msg = document.getElementById("msg"); // 根据id值找到span元素
+            window.onload = function () {
+              msg.innerHTML = document.getElementById("gz").value; // 获取区间域初始value值
+            };
+            document.getElementById("gz").onchange = function () {
+              msg.innerHTML = this.value; // 将当前区间域的value作为span元素的内容
+            };
+          </script>
+      </div>
+
+      <div id="爱好">
+        <label for="like">个人爱好:</label>
+        <label for=""> <input type="checkbox" />唱 </label>
+        <label for=""> <input type="checkbox" />跳 </label>
+        <label for=""> <input type="checkbox" />rap </label>
+      </div>
+
+      <div id="照片">
+        <form method="post" action="#" enctype="multipart/form-data">
+          <label for="photo">个人照片:</label>
+          <input type="file" id="test-image-file" name="test" />
+
+          <div
+            id="test-image-preview"
+            style="
+              border: 1px solid silver;
+              width: 40%;
+              height: 200px;
+              background-repeat: no-repeat;
+              background-position: center;
+            "
+          ></div>
+          <p id="test-file-info">没有选择文件</p>
+        </form>
+
+        
+  <script>
+    var fileInput = document.getElementById("test-image-file");
+    var info = document.getElementById("test-file-info");
+    var preview = document.getElementById("test-image-preview");
+    fileInput.addEventListener("change", function () {
+      // 监听change事件
+      preview.style.backgroundImage = ""; // 清除背景图片
+      if (!fileInput.value) {
+        info.innerHTML = "没有选择文件";
+        return;
+      }
+      var file = fileInput.files[0]; // 获取File引用
+      // 获取File信息:
+      info.innerHTML =
+        "文件: " +
+        file.name +
+        "<br>" +
+        "大小: " +
+        file.size +
+        "<br>" +
+        "修改: " +
+        file.lastModifiedDate;
+      if (
+        file.type !== "image/jpeg" &&
+        file.type !== "image/png" &&
+        file.type !== "image/gif"
+      ) {
+        alert("不是有效的图片文件!");
+        return;
+      }
+      var reader = new FileReader(); // 读取文件
+      reader.onload = function (e) {
+        // 发起一个异步操作来读取文件内容
+        var data = e.target.result; // data串形如： 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'
+        preview.style.backgroundImage = "url(" + data + ")";
+      };
+      reader.readAsDataURL(file); // 以DataURL的形式读取文件
+    });
+  </script>
+      </div>
+
+      <div id="简介">
+        <p>个人简介：</p>
+        <textarea name="intro" cols="50" rows="8"></textarea>
+      </div>
+
+      <div id="提交">
+        <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input type="submit" value="提交" />
+        <input type="reset" value="重填" />
+      </div>
+    
+     </form>
+    </div>
+  </body>
+  
+
+</html>
